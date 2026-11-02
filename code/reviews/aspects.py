@@ -103,7 +103,7 @@ def item_name(mention: str, aliases: dict) -> str:
         item_name("Parking downtown", aliases)  ->  "parking"
         item_name("Mocha Latte", aliases)        ->  "mocha latte"   # not an alias
     """
-    lowered = mention.lower()
+    lowered = mention.strip().lower()
     return aliases.get(lowered, lowered)
 
 
@@ -328,18 +328,18 @@ def build_messages(question: str, evidence: pd.DataFrame, limit: int = 20) -> li
         f"{other} neutral or mixed.",
         "Items, most mentioned first:",
     ]
-    for _, row in summary.to_dict():
+    for row in summary.to_dict("records"):
         lines.append(f"- {row['item']} ({row['subject']}): {row['mentions']} mentions, "
                      f"{row['positive']} positive, {row['negative']} negative, "
                      f"net {row['net']:+d}")
-        lines.append("Review sentences:")
-        for row in evidence.head(limit).to_dict("records"):
-            lines.append(f"- ({row['location']}, {row['date']}, {row['item']}, "
-                         f"{row['mention_sentiment']}) {row['sentence_text']}")
-        return [
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": "\n".join(lines)},
-        ]
+    lines.append("Review sentences:")
+    for row in evidence.head(limit).to_dict("records"):
+        lines.append(f"- ({row['location']}, {row['date']}, {row['item']}, "
+                     f"{row['mention_sentiment']}) {row['sentence_text']}")
+    return [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": "\n".join(lines)},
+    ]
 
 
 def answer_question(question: str, mentions: pd.DataFrame, aliases: dict):
