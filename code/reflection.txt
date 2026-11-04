@@ -1,7 +1,1 @@
-Write your reflection here.
-
-See reflection.md for what makes a good reflection — be specific, use the
-terminology from this assignment (REST API, endpoint, HTTP status code,
-raise_for_status, API key, form data vs. JSON body, rate limit, caching,
-json_normalize, record_path, meta, grain, opinion mining, named-entity
-recognition, prompt, system prompt, reasoning model), and make it actionable.
+In this assignment I learned how to use a REST API: each request builds a URL from the base URL and an endpoint’s path, then sends my API key in the header. I struggled with flattening JSON with json_normalize because I often forgot a line or function, which left parts of my tables missing. Next time I will work slower and check my code against the instructions every few lines, so I don’t skip an important step. I also struggled with review_explorer.py, but most of that came from missing pieces in earlier functions that I only found through failed tests. So next time I will run pytest after each function instead of waiting until the end, so I catch missing parts while they are still easy to fix.
